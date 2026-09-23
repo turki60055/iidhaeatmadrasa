@@ -34,6 +34,7 @@ import { PrintPreviewModal } from './components/PrintPreviewModal';
 import { LiveStageRehearsalModal } from './components/LiveStageRehearsalModal';
 import { BroadcastLibraryModal } from './components/BroadcastLibraryModal';
 import { AiEnhancerModal } from './components/AiEnhancerModal';
+import { OfflineIndicator } from './components/OfflineIndicator';
 import { exportBroadcastToWord, copyBroadcastAsText } from './utils/exportUtils';
 
 export default function App() {
@@ -465,6 +466,8 @@ export default function App() {
         currentContent={aiEnhancerState.currentContent}
         onApply={handleApplyAiEnhancerResult}
       />
+
+      <OfflineIndicator />
     </div>
   );
 }

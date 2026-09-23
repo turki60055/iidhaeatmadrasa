@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import {
-  Radio,
   Sparkles,
   Printer,
   PlayCircle,
@@ -16,9 +15,12 @@ import {
   X,
   ChevronLeft,
   Share2,
+  Smartphone,
 } from 'lucide-react';
 import { RadioBroadcast } from '../types/radio';
 import { copyBroadcastAsText, exportBroadcastToWord } from '../utils/exportUtils';
+import { PWAInstallButton } from './PWAInstallButton';
+import { PWAInstallModal } from './PWAInstallModal';
 
 interface HeaderProps {
   broadcast: RadioBroadcast;
@@ -43,6 +45,7 @@ export const Header: React.FC<HeaderProps> = ({
 }) => {
   const [copied, setCopied] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isInstallModalOpen, setIsInstallModalOpen] = useState(false);
 
   const handleCopy = () => {
     const text = copyBroadcastAsText(broadcast);
@@ -61,10 +64,21 @@ export const Header: React.FC<HeaderProps> = ({
       <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-xs print:hidden">
         <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 sm:h-20 gap-2 sm:gap-4">
-            {/* Logo & Brand */}
+            {/* Logo & Brand with Distinctive App Icon */}
             <div className="flex items-center gap-2.5 sm:gap-3 shrink-0">
-              <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-gradient-to-tr from-emerald-600 to-teal-500 flex items-center justify-center text-white shadow-md shadow-emerald-500/20 ring-4 ring-emerald-50 shrink-0">
-                <Radio className="w-5 h-5 animate-pulse" />
+              <div 
+                onClick={() => setIsInstallModalOpen(true)}
+                className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-tr from-emerald-600 to-teal-500 p-0.5 shadow-md shadow-emerald-500/20 ring-3 ring-emerald-50 shrink-0 cursor-pointer hover:scale-105 transition-transform"
+                title="أيقونة تطبيق أثير الرسمية - انقر لتثبيت البرنامج"
+              >
+                <img
+                  src="/pwa-192x192.png"
+                  alt="أثير الإذاعة المدرسية"
+                  className="w-full h-full object-cover rounded-[14px]"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src = '/icon.svg';
+                  }}
+                />
               </div>
               <div>
                 <div className="flex items-center gap-1.5 sm:gap-2">
@@ -83,6 +97,9 @@ export const Header: React.FC<HeaderProps> = ({
 
             {/* Desktop Action Buttons (Visible on md and above) */}
             <div className="hidden md:flex items-center gap-1.5 lg:gap-2">
+              {/* PWA Install Button */}
+              <PWAInstallButton />
+
               {/* AI Generator Button */}
               <button
                 onClick={onOpenAIModal}
@@ -171,6 +188,15 @@ export const Header: React.FC<HeaderProps> = ({
             {/* Mobile Top Header Actions */}
             <div className="flex md:hidden items-center gap-1.5">
               <button
+                onClick={() => setIsInstallModalOpen(true)}
+                className="p-2 rounded-xl bg-emerald-50 text-emerald-800 border border-emerald-200 active:scale-95 transition flex items-center gap-1"
+                title="تثبيت التطبيق على الجوال"
+              >
+                <img src="/pwa-192x192.png" alt="أيقونة التطبيق" className="w-4 h-4 rounded-xs" />
+                <span className="text-[11px] font-bold">تثبيت</span>
+              </button>
+
+              <button
                 onClick={onOpenAIModal}
                 className="flex items-center gap-1 px-3 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-bold text-xs shadow-sm shadow-emerald-600/30 active:scale-95 transition"
               >
@@ -208,11 +234,14 @@ export const Header: React.FC<HeaderProps> = ({
 
           <div className="relative z-10 bg-white rounded-t-3xl shadow-2xl border-t border-slate-200 p-5 space-y-4 max-h-[85vh] overflow-y-auto animate-in slide-in-from-bottom duration-250">
             <div className="flex items-center justify-between pb-3 border-b border-slate-100">
-              <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-xl bg-emerald-600 text-white flex items-center justify-center">
-                  <Radio className="w-4 h-4" />
+              <div className="flex items-center gap-2.5">
+                <div className="w-9 h-9 rounded-xl bg-emerald-600 p-0.5 shadow-sm">
+                  <img src="/pwa-192x192.png" alt="أيقونة أثير" className="w-full h-full object-cover rounded-lg" />
                 </div>
-                <div className="font-bold text-slate-900 text-sm">قائمة أدوات أثير الإذاعية</div>
+                <div>
+                  <div className="font-black text-slate-900 text-sm">أثـيـر • الإذاعة المدرسية</div>
+                  <div className="text-[10px] text-slate-500 font-bold">تطبيق الويب التقدمي المعتمد</div>
+                </div>
               </div>
               <button
                 onClick={() => setIsMobileMenuOpen(false)}
@@ -220,6 +249,11 @@ export const Header: React.FC<HeaderProps> = ({
               >
                 <X className="w-4 h-4" />
               </button>
+            </div>
+
+            {/* PWA Install Promotion in Mobile Drawer */}
+            <div className="space-y-1.5">
+              <PWAInstallButton variant="menu" />
             </div>
 
             {/* Quick Actions Group */}
@@ -329,6 +363,9 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
         </div>
       )}
+
+      {/* Standalone Install Modal */}
+      <PWAInstallModal isOpen={isInstallModalOpen} onClose={() => setIsInstallModalOpen(false)} />
     </>
   );
 };
