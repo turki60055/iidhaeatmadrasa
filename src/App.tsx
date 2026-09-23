@@ -206,7 +206,10 @@ export default function App() {
       />
 
       {/* Main Content Area */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-6 space-y-4 sm:space-y-6">
+      <main
+        id="main-app-content"
+        className="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-6 space-y-4 sm:space-y-6 print:hidden"
+      >
         {/* School Metadata Banner Card */}
         <div className="bg-gradient-to-r from-slate-900 via-slate-800 to-indigo-950 text-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 shadow-xl border border-slate-700/50 flex flex-col lg:flex-row lg:items-center justify-between gap-4 sm:gap-5 relative overflow-hidden">
           {/* Background Ambient Glow */}
