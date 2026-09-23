@@ -1,0 +1,8 @@
+{
+  "name": "أثير - منصة الإذاعة المدرسية الذكية",
+  "description": "برنامج احترافي متكامل لإعداد وتوليد فقرات الإذاعة المدرسية بالذكاء الاصطناعي وتنسيق نماذج الطباعة الرسمية وتوزيع مهام الطلاب.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
