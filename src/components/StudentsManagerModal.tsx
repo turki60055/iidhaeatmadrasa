@@ -7,7 +7,7 @@ import {
   Sparkles,
   Shuffle,
   Check,
-  GraduationCap,
+  RotateCcw,
 } from 'lucide-react';
 import { RadioBroadcast, StudentPresenter } from '../types/radio';
 
@@ -62,6 +62,10 @@ export const StudentsManagerModal: React.FC<StudentsManagerModalProps> = ({
   const handleRemoveStudent = (id: string) => {
     const updated = students.filter((s) => s.id !== id);
     setStudents(updated);
+  };
+
+  const handleClearAllStudents = () => {
+    setStudents([]);
   };
 
   // Auto assign students to active sections
@@ -122,45 +126,45 @@ export const StudentsManagerModal: React.FC<StudentsManagerModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm">
-      <div className="relative w-full max-w-2xl bg-white rounded-3xl shadow-2xl border border-slate-100 overflow-hidden animate-in fade-in zoom-in-95">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-slate-900/60 backdrop-blur-sm">
+      <div className="relative w-full max-w-2xl bg-white rounded-3xl shadow-2xl border border-slate-100 overflow-hidden animate-in fade-in zoom-in-95 my-auto">
         {/* Header */}
-        <div className="bg-gradient-to-r from-emerald-800 to-teal-800 text-white p-5 flex items-center justify-between">
+        <div className="bg-gradient-to-r from-emerald-800 to-teal-800 text-white p-4 sm:p-5 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center">
+            <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center shrink-0">
               <Users className="w-5 h-5 text-emerald-300" />
             </div>
             <div>
-              <h3 className="font-bold text-base">جماعة الإذاعة والطلاب المشاركون</h3>
-              <p className="text-xs text-emerald-100">
+              <h3 className="font-bold text-sm sm:text-base">جماعة الإذاعة والطلاب المشاركون</h3>
+              <p className="text-[11px] sm:text-xs text-emerald-100">
                 تسجيل أسماء الطلاب وتوزيع الفقرات تلقائياً بضغطة زر
               </p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white/80 transition"
+            className="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white/80 transition cursor-pointer"
           >
             <X className="w-4 h-4" />
           </button>
         </div>
 
-        <div className="p-6 space-y-6 max-h-[75vh] overflow-y-auto">
+        <div className="p-4 sm:p-6 space-y-4 sm:space-y-5 max-h-[75vh] overflow-y-auto">
           {/* Add Student Form */}
           <form onSubmit={handleAddStudent} className="flex flex-col sm:flex-row gap-2">
             <input
               type="text"
-              placeholder="اسم الطالب الرباعي أو الثلاثي..."
+              placeholder="اكتب اسم الطالب..."
               value={newName}
               onChange={(e) => setNewName(e.target.value)}
               className="flex-1 px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs sm:text-sm font-semibold outline-none focus:border-emerald-500"
             />
             <input
               type="text"
-              placeholder="الصف (مثال: الصف الثاني المتوسط)..."
+              placeholder="اكتب الصف (مثال: الصف الثاني)..."
               value={newGrade}
               onChange={(e) => setNewGrade(e.target.value)}
-              className="w-full sm:w-52 px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs sm:text-sm outline-none focus:border-emerald-500"
+              className="w-full sm:w-48 px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs sm:text-sm outline-none focus:border-emerald-500"
             />
             <button
               type="submit"
@@ -171,28 +175,47 @@ export const StudentsManagerModal: React.FC<StudentsManagerModalProps> = ({
             </button>
           </form>
 
-          {/* Quick Distribution Bar */}
-          <div className="flex items-center justify-between bg-emerald-50 p-3.5 rounded-2xl border border-emerald-200">
+          {/* Quick Distribution & Clear Bar */}
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between bg-emerald-50 p-3 sm:p-3.5 rounded-2xl border border-emerald-200 gap-2">
             <div className="text-xs text-emerald-900 font-bold flex items-center gap-1.5">
-              <Sparkles className="w-4 h-4 text-emerald-600" />
+              <Sparkles className="w-4 h-4 text-emerald-600 shrink-0" />
               <span>لديك {students.length} طلاب مسجلين في جماعة الإذاعة</span>
             </div>
-            <button
-              type="button"
-              onClick={handleAutoDistribute}
-              className="px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition flex items-center gap-1.5 cursor-pointer shadow-xs"
-            >
-              <Shuffle className="w-3.5 h-3.5" />
-              <span>توزيع تلقائي على الفقرات</span>
-            </button>
+            <div className="flex items-center gap-2">
+              {students.length > 0 && (
+                <button
+                  type="button"
+                  onClick={handleClearAllStudents}
+                  className="px-2.5 py-1.5 rounded-xl bg-rose-50 text-rose-700 hover:bg-rose-100 border border-rose-200 text-xs font-bold transition flex items-center gap-1 cursor-pointer"
+                  title="مسح كافة الطلاب والبدء من جديد"
+                >
+                  <Trash2 className="w-3.5 h-3.5 text-rose-600" />
+                  <span>تفريغ القائمة</span>
+                </button>
+              )}
+              <button
+                type="button"
+                onClick={handleAutoDistribute}
+                disabled={students.length === 0}
+                className={`px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 cursor-pointer shadow-2xs ${
+                  students.length === 0
+                    ? 'bg-slate-200 text-slate-400 cursor-not-allowed'
+                    : 'bg-emerald-600 hover:bg-emerald-700 text-white'
+                }`}
+              >
+                <Shuffle className="w-3.5 h-3.5" />
+                <span>توزيع تلقائي على الفقرات</span>
+              </button>
+            </div>
           </div>
 
           {/* Students List */}
           <div className="space-y-2">
-            <label className="text-xs font-bold text-slate-700">قائمة الطلاب:</label>
+            <label className="text-xs font-bold text-slate-700">قائمة الطلاب المسجلين:</label>
             {students.length === 0 ? (
-              <div className="text-center py-8 text-slate-400 text-xs">
-                لم يتم إضافة أي طالب بعد. أضف أسماء الطلاب أعلاه لتوزيعهم على البرنامج.
+              <div className="text-center py-8 px-4 rounded-2xl bg-slate-50 border border-dashed border-slate-200 text-slate-400 text-xs space-y-1">
+                <div className="font-bold text-slate-600">لا يوجد طلاب مسجلون حالياً</div>
+                <div>أدخل اسم الطالب والصف أعلاه لتسجيل أعضاء جماعة الإذاعة وتوزيعهم بسهولة.</div>
               </div>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -213,7 +236,7 @@ export const StudentsManagerModal: React.FC<StudentsManagerModalProps> = ({
                     <button
                       type="button"
                       onClick={() => handleRemoveStudent(std.id)}
-                      className="p-1.5 text-slate-400 hover:text-rose-600 rounded-lg transition"
+                      className="p-1.5 text-slate-400 hover:text-rose-600 rounded-lg transition cursor-pointer"
                     >
                       <Trash2 className="w-4 h-4" />
                     </button>
@@ -225,7 +248,7 @@ export const StudentsManagerModal: React.FC<StudentsManagerModalProps> = ({
         </div>
 
         {/* Footer Actions */}
-        <div className="p-4 border-t border-slate-200 bg-slate-50 flex items-center justify-end gap-3">
+        <div className="p-3 sm:p-4 border-t border-slate-200 bg-slate-50 flex items-center justify-end gap-2 sm:gap-3">
           <button
             type="button"
             onClick={onClose}
@@ -236,7 +259,7 @@ export const StudentsManagerModal: React.FC<StudentsManagerModalProps> = ({
           <button
             type="button"
             onClick={handleSaveAndSync}
-            className="px-5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs transition flex items-center gap-1.5 cursor-pointer shadow-xs"
+            className="px-5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs transition flex items-center gap-1.5 cursor-pointer shadow-2xs"
           >
             <Check className="w-4 h-4" />
             <span>حفظ القائمة</span>

@@ -167,7 +167,11 @@ export const AIGeneratorModal: React.FC<AIGeneratorModalProps> = ({
         targetDuration,
         introduction: {
           text: b.introduction || currentBroadcast.introduction.text,
-          presenterName: currentBroadcast.introduction.presenterName || currentBroadcast.schoolInfo.headStudent,
+          presenterName:
+            currentBroadcast.introduction.presenterName ||
+            (currentBroadcast.schoolInfo.headStudent !== 'اكتب اسم مقدم الإذاعة'
+              ? currentBroadcast.schoolInfo.headStudent
+              : ''),
           presenterGrade: currentBroadcast.introduction.presenterGrade || '',
           estimatedMinutes: 1,
         },
@@ -229,7 +233,11 @@ export const AIGeneratorModal: React.FC<AIGeneratorModalProps> = ({
         },
         outro: {
           text: b.outro || currentBroadcast.outro.text,
-          presenterName: currentBroadcast.outro.presenterName || currentBroadcast.schoolInfo.headStudent,
+          presenterName:
+            currentBroadcast.outro.presenterName ||
+            (currentBroadcast.schoolInfo.headStudent !== 'اكتب اسم مقدم الإذاعة'
+              ? currentBroadcast.schoolInfo.headStudent
+              : ''),
           presenterGrade: currentBroadcast.outro.presenterGrade || '',
           estimatedMinutes: 0.5,
         },

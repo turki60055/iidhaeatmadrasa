@@ -89,13 +89,13 @@ export const SectionEditor: React.FC<SectionEditorProps> = ({
   return (
     <div className="space-y-6">
       {/* Overview & Program Header Bar */}
-      <div className="bg-white rounded-3xl p-5 sm:p-6 border border-slate-200/80 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 border border-slate-200/80 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-3 sm:gap-4">
         <div className="space-y-1">
           <div className="flex items-center gap-2">
-            <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800">
+            <span className="text-[11px] sm:text-xs font-bold px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800">
               الموضوع الرئيسي
             </span>
-            <span className="text-xs text-slate-500 font-medium">
+            <span className="text-[11px] sm:text-xs text-slate-500 font-medium">
               المدة التقديرية: ~{totalMinutes} دقائق
             </span>
           </div>
@@ -103,21 +103,21 @@ export const SectionEditor: React.FC<SectionEditorProps> = ({
             type="text"
             value={broadcast.title}
             onChange={(e) => onChange({ ...broadcast, title: e.target.value })}
-            className="text-lg sm:text-2xl font-black text-slate-900 w-full outline-none hover:bg-slate-50 focus:bg-white focus:ring-2 focus:ring-emerald-200 rounded-xl px-2 py-1 transition"
+            className="text-base sm:text-2xl font-black text-slate-900 w-full outline-none hover:bg-slate-50 focus:bg-white focus:ring-2 focus:ring-emerald-200 rounded-xl px-2 py-1 transition"
           />
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2 pt-2 md:pt-0 border-t md:border-t-0 border-slate-100">
           <button
             onClick={onOpenStudentsModal}
-            className="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition flex items-center gap-1.5 cursor-pointer"
+            className="flex-1 sm:flex-none px-3.5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition flex items-center justify-center gap-1.5 cursor-pointer active:scale-95"
           >
             <User className="w-4 h-4 text-emerald-600" />
             <span>توزيع الطلاب ({broadcast.students.length})</span>
           </button>
           <button
             onClick={handleAddCustomSection}
-            className="px-3.5 py-2 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-bold text-xs border border-emerald-200 transition flex items-center gap-1.5 cursor-pointer"
+            className="flex-1 sm:flex-none px-3.5 py-2.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-bold text-xs border border-emerald-200 transition flex items-center justify-center gap-1.5 cursor-pointer active:scale-95"
           >
             <Plus className="w-4 h-4" />
             <span>إضافة فقرة مخصصة</span>

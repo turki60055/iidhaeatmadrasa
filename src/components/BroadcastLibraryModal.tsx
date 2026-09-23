@@ -32,7 +32,22 @@ export const BroadcastLibraryModal: React.FC<BroadcastLibraryModalProps> = ({
     try {
       const stored = localStorage.getItem('atheer_school_broadcasts');
       if (stored) {
-        return JSON.parse(stored);
+        const parsed: RadioBroadcast[] = JSON.parse(stored);
+        return parsed.map((item) => {
+          if (
+            item.schoolInfo?.schoolName?.includes('روّاد المستقبل') ||
+            item.schoolInfo?.schoolName?.includes('رواد المستقبل') ||
+            item.schoolInfo?.schoolPrincipal?.includes('المنصور') ||
+            item.schoolInfo?.broadcastSupervisor?.includes('السعدي')
+          ) {
+            item.schoolInfo.schoolName = 'اسم المدرسة';
+            item.schoolInfo.broadcastSupervisor = 'اكتب اسم المشرف';
+            item.schoolInfo.schoolPrincipal = 'اكتب اسم المدير';
+            item.schoolInfo.headStudent = 'اكتب اسم مقدم الإذاعة';
+            item.students = [];
+          }
+          return item;
+        });
       }
     } catch (e) {
       console.error(e);
