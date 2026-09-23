@@ -7,73 +7,96 @@
 }
 
 /* ========================================================= */
-/* CRITICAL PRINT SYSTEM OPTIMIZATION FOR MOBILE & DESKTOP   */
+/* UNIVERSAL MOBILE & DESKTOP PRINT FIXES                    */
 /* ========================================================= */
 @media print {
   @page {
     size: A4 portrait;
-    margin: 6mm 8mm 6mm 8mm;
+    margin: 5mm 6mm;
   }
 
   html,
   body {
     background: #ffffff !important;
-    color: #000000 !important;
+    color: #0f172a !important;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
     margin: 0 !important;
     padding: 0 !important;
     width: 100% !important;
-    height: auto !important;
+    height: 100% !important;
     min-height: 0 !important;
     overflow: visible !important;
-    font-size: 11pt;
   }
 
-  /* Force hide all screen-only UI, toolbars, buttons, docks, and modals backgrounds */
+  /* Force hide all standard UI buttons, headers, app chrome */
+  #main-app-content,
   header,
   nav,
   footer,
-  aside,
-  button,
   .print\:hidden,
-  .no-print,
-  #floating-dock,
-  .backdrop-blur-sm,
-  .backdrop-blur-md {
-    display: none !important;
-    visibility: hidden !important;
-  }
-
-  /* When printing from the preview modal, ensure ONLY the print sheet prints cleanly */
-  body.modal-print-active #main-app-content {
+  [data-print-hide="true"] {
     display: none !important;
   }
 
-  /* Prevent awkward breaks inside sections */
-  .page-break-inside-avoid,
-  .avoid-break {
-    page-break-inside: avoid !important;
-    break-inside: avoid !important;
-  }
-
-  .page-break-after {
-    page-break-after: always !important;
-    break-after: page !important;
-  }
-
-  /* Printable paper reset */
-  .printable-paper {
+  /* De-trap modal for print rasterization: convert fixed container to regular static flow */
+  #print-portal-container {
     position: static !important;
     display: block !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    overflow: visible !important;
+    background: transparent !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    inset: auto !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+  }
+
+  #printable-broadcast-document {
+    display: block !important;
+    position: static !important;
     width: 100% !important;
     max-width: 100% !important;
     margin: 0 !important;
     padding: 0 !important;
     box-shadow: none !important;
-    border: none !important;
     background: #ffffff !important;
-    height: auto !important;
-    min-height: 0 !important;
+  }
+
+  /* Individual Student Card Print Rules: Strictly 1 Page per Section (245mm max height) */
+  .student-page-render-card {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    break-inside: avoid-page !important;
+    page-break-after: always !important;
+    break-after: page !important;
+    height: 248mm !important;
+    max-height: 248mm !important;
+    min-height: 230mm !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    padding: 8px 12px !important;
+    margin: 0 0 0 0 !important;
+    box-shadow: none !important;
+    border-radius: 4px !important;
+    border: 2px solid #0f172a !important;
+  }
+
+  .student-page-render-card:last-child {
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+    margin-bottom: 0 !important;
+  }
+
+  .avoid-break {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
   }
 }
